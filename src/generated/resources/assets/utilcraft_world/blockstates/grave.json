@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "utilcraft_world:block/grave"
+    },
+    "facing=south": {
+      "model": "utilcraft_world:block/grave",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "utilcraft_world:block/grave",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "utilcraft_world:block/grave",
+      "y": 90
+    }
+  }
+}

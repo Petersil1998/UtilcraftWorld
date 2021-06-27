@@ -1,0 +1,15 @@
+{
+  "type": "utilcraft_world:afterlife_dimension_type",
+  "generator": {
+    "type": "minecraft:noise",
+    "seed": 0,
+    "settings": "minecraft:overworld",
+    "biome_source": {
+      "biomes": [
+        "utilcraft_world:graveyard"
+      ],
+      "type": "minecraft:fixed",
+      "biome": "utilcraft_world:graveyard"
+    }
+  }
+}
