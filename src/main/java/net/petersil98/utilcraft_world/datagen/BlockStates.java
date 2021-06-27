@@ -21,23 +21,33 @@ public class BlockStates extends BlockStateProvider {
     }
 
     private void registerGrave() {
-        ResourceLocation location = new ResourceLocation(BlockItemUtils.namespace(UtilcraftWorldBlocks.GRAVE), ModelProvider.BLOCK_FOLDER +"/"+BlockItemUtils.name(UtilcraftWorldBlocks.GRAVE));
         getVariantBuilder(UtilcraftWorldBlocks.GRAVE).forAllStates(blockState -> {
-            ModelFile modelFile = models().getExistingFile(location);
+            ModelFile defaultModel = models().getExistingFile(new ResourceLocation(BlockItemUtils.namespace(UtilcraftWorldBlocks.GRAVE), ModelProvider.BLOCK_FOLDER +"/"+BlockItemUtils.name(UtilcraftWorldBlocks.GRAVE)));
+            ModelFile graveModel1 = models().getExistingFile(new ResourceLocation(BlockItemUtils.namespace(UtilcraftWorldBlocks.GRAVE), ModelProvider.BLOCK_FOLDER +"/"+BlockItemUtils.name(UtilcraftWorldBlocks.GRAVE)+"2"));
+            ModelFile graveModel2 = models().getExistingFile(new ResourceLocation(BlockItemUtils.namespace(UtilcraftWorldBlocks.GRAVE), ModelProvider.BLOCK_FOLDER +"/"+BlockItemUtils.name(UtilcraftWorldBlocks.GRAVE)+"3"));
+            int rotation;
             switch (blockState.get(Grave.FACING)) {
                 case EAST: {
-                    return ConfiguredModel.builder().modelFile(modelFile).rotationY(90).build();
+                    rotation = 90;
+                    break;
                 }
                 case SOUTH: {
-                    return ConfiguredModel.builder().modelFile(modelFile).rotationY(180).build();
+                    rotation = 180;
+                    break;
                 }
                 case WEST: {
-                    return ConfiguredModel.builder().modelFile(modelFile).rotationY(270).build();
+                    rotation = 270;
+                    break;
                 }
                 default: {
-                    return ConfiguredModel.builder().modelFile(modelFile).build();
+                    rotation = 0;
                 }
             }
+            return ConfiguredModel.builder()
+                    .modelFile(defaultModel).rotationY(rotation).nextModel()
+                    .modelFile(graveModel1).rotationY(rotation).nextModel()
+                    .modelFile(graveModel2).rotationY(rotation)
+                    .build();
         });
     }
 }

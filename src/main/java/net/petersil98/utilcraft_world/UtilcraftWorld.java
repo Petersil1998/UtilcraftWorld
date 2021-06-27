@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.*;
 import net.minecraft.potion.Effect;
+import net.minecraft.util.Direction;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
@@ -11,8 +12,12 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.blockplacer.SimpleBlockPlacer;
 import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
+import net.minecraft.world.gen.blockstateprovider.WeightedBlockStateProvider;
 import net.minecraft.world.gen.feature.BlockClusterFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.Features;
+import net.minecraft.world.gen.placement.ConfiguredPlacement;
+import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.common.BiomeManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
@@ -89,9 +94,17 @@ public class UtilcraftWorld
 
         @SubscribeEvent
         public static void registerBiomes(@Nonnull final RegistryEvent.Register<Biome> biomeRegister) {
-            UtilcraftWorldFeatures.GRAVES = Feature.FLOWER.withConfiguration(
-                    new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(UtilcraftWorldBlocks.GRAVE.getDefaultState()), new SimpleBlockPlacer()).build())
-                    .chance(1000);
+            UtilcraftWorldFeatures.GRAVES = Feature.RANDOM_PATCH.withConfiguration(
+                    new BlockClusterFeatureConfig.Builder(
+                            new WeightedBlockStateProvider()
+                                    .addWeightedBlockstate(UtilcraftWorldBlocks.GRAVE.getDefaultState(), 1)
+                                    .addWeightedBlockstate(UtilcraftWorldBlocks.GRAVE.getDefaultState().with(Grave.FACING, Direction.SOUTH), 1)
+                                    .addWeightedBlockstate(UtilcraftWorldBlocks.GRAVE.getDefaultState().with(Grave.FACING, Direction.EAST), 1)
+                                    .addWeightedBlockstate(UtilcraftWorldBlocks.GRAVE.getDefaultState().with(Grave.FACING, Direction.WEST), 1)
+                            , SimpleBlockPlacer.PLACER)
+                            .tries(10)
+                            .build())
+                    .withPlacement(Features.Placements.HEIGHTMAP_SPREAD_DOUBLE_PLACEMENT);
             UtilcraftWorldFeatures.register("grave_feature", UtilcraftWorldFeatures.GRAVES);
             biomeRegister.getRegistry().register(Graveyard.makeGraveyardBiome().setRegistryName(MOD_ID, "graveyard"));
         }
