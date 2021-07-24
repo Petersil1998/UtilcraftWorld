@@ -19,24 +19,24 @@ import javax.annotation.Nonnull;
 
 public class Grave extends Block {
 
-    public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
-    protected static final VoxelShape EAST_SHAPE = Block.makeCuboidShape(16.0D, 0.0D, 2.0D, 15.0D, 16.0D, 14.0D);
-    protected static final VoxelShape NORTH_SHAPE = Block.makeCuboidShape(2.0D, 0.0D, 0.0D, 14.0D, 16.0D, 1.0D);
-    protected static final VoxelShape WEST_SHAPE = Block.makeCuboidShape(0.0D, 0.0D, 2.0D, 1.0D, 16.0D, 14.0D);
-    protected static final VoxelShape SOUTH_SHAPE = Block.makeCuboidShape(2.0D, 0.0D, 16.0D, 14.0D, 16.0D, 15.0D);
+    public static final DirectionProperty FACING = HorizontalBlock.FACING;
+    protected static final VoxelShape EAST_SHAPE = Block.box(16.0D, 0.0D, 2.0D, 15.0D, 16.0D, 14.0D);
+    protected static final VoxelShape NORTH_SHAPE = Block.box(2.0D, 0.0D, 0.0D, 14.0D, 16.0D, 1.0D);
+    protected static final VoxelShape WEST_SHAPE = Block.box(0.0D, 0.0D, 2.0D, 1.0D, 16.0D, 14.0D);
+    protected static final VoxelShape SOUTH_SHAPE = Block.box(2.0D, 0.0D, 16.0D, 14.0D, 16.0D, 15.0D);
 
     public Grave() {
         super(AbstractBlock.Properties
-                .create(Material.ROCK, MaterialColor.STONE)
-                .notSolid()
+                .of(Material.STONE, MaterialColor.STONE)
+                .noOcclusion()
                 .noDrops()
         );
-        this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH));
+        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
 
     @Nonnull
     public VoxelShape getShape(@Nonnull BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos, @Nonnull ISelectionContext context) {
-        Direction sideSlabType = state.get(FACING);
+        Direction sideSlabType = state.getValue(FACING);
         switch(sideSlabType) {
             case EAST:
                 return EAST_SHAPE;
@@ -50,17 +50,17 @@ public class Grave extends Block {
     }
 
     @Override
-    protected void fillStateContainer(@Nonnull StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(@Nonnull StateContainer.Builder<Block, BlockState> builder) {
         builder.add(FACING);
     }
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing());
+        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection());
     }
 
     protected boolean isValidGround(BlockState state) {
-        return state.isIn(Blocks.GRASS_BLOCK) || state.isIn(Blocks.DIRT);
+        return state.is(Blocks.GRASS_BLOCK) || state.is(Blocks.DIRT);
     }
 
     /**
@@ -71,12 +71,12 @@ public class Grave extends Block {
      */
     @Override
     @NotNull
-    public BlockState updatePostPlacement(BlockState state, @NotNull Direction facing, @NotNull BlockState facingState, @NotNull IWorld world, @NotNull BlockPos currentPos, @NotNull BlockPos facingPos) {
-        return !state.isValidPosition(world, currentPos) ? Blocks.AIR.getDefaultState() : super.updatePostPlacement(state, facing, facingState, world, currentPos, facingPos);
+    public BlockState updateShape(BlockState state, @NotNull Direction facing, @NotNull BlockState facingState, @NotNull IWorld world, @NotNull BlockPos currentPos, @NotNull BlockPos facingPos) {
+        return !state.canSurvive(world, currentPos) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, facing, facingState, world, currentPos, facingPos);
     }
 
-    public boolean isValidPosition(@NotNull BlockState state, @NotNull IWorldReader world, BlockPos pos) {
-        BlockPos blockpos = pos.down();
+    public boolean canSurvive(@NotNull BlockState state, @NotNull IWorldReader world, BlockPos pos) {
+        BlockPos blockpos = pos.below();
         /*if (state.getBlock() == this) //Forge: This function is called during world gen and placement, before this block is set, so if we are not 'here' then assume it's the pre-check.
             return world.getBlockState(blockpos).canSustainPlant(world, blockpos, Direction.UP, this);*/
         return this.isValidGround(world.getBlockState(blockpos));

@@ -16,9 +16,9 @@ public class EventHandler {
     public static void onPlayerDeath(PlayerEvent.PlayerRespawnEvent event) {
         if(event.getPlayer() instanceof ServerPlayerEntity) {
             ServerPlayerEntity player = (ServerPlayerEntity) event.getPlayer();
-            BlockPos respawnPoint = player.func_241140_K_();
+            BlockPos respawnPoint = player.getRespawnPosition();
             if(respawnPoint == null) {
-                respawnPoint = player.world.getServer().getWorld(World.OVERWORLD).getSpawnPoint();
+                respawnPoint = player.level.getServer().getLevel(World.OVERWORLD).getSharedSpawnPos();
             }
             PlayerUtils.teleportToWorld(player, UtilcraftWorld.AFTERLIFE_WORLD, respawnPoint, true);
         }

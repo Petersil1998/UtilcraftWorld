@@ -15,20 +15,20 @@ import static net.petersil98.utilcraft_world.utils.PlayerUtils.*;
 public class Switcher extends Item {
 
     public Switcher() {
-        super(new Item.Properties().group(UtilcraftWorld.ITEM_GROUP));
+        super(new Item.Properties().tab(UtilcraftWorld.ITEM_GROUP));
     }
 
     @Override
-    public @NotNull ActionResult<ItemStack> onItemRightClick(@NotNull World world, @NotNull PlayerEntity player, @NotNull Hand hand) {
-        if(!world.isRemote) {
+    public @NotNull ActionResult<ItemStack> use(@NotNull World world, @NotNull PlayerEntity player, @NotNull Hand hand) {
+        if(!world.isClientSide) {
             if(isPlayerInWorld((ServerPlayerEntity) player, World.OVERWORLD)) {
-                player.abilities.isCreativeMode = true;
+                player.abilities.instabuild = true;
                 teleportToWorld((ServerPlayerEntity) player, UtilcraftWorld.AFTERLIFE_WORLD);
             } else if(isPlayerInWorld((ServerPlayerEntity) player, UtilcraftWorld.AFTERLIFE_WORLD)) {
-                player.abilities.isCreativeMode = true;
+                player.abilities.instabuild = true;
                 teleportToWorld((ServerPlayerEntity) player, World.OVERWORLD);
             }
         }
-        return super.onItemRightClick(world, player, hand);
+        return super.use(world, player, hand);
     }
 }

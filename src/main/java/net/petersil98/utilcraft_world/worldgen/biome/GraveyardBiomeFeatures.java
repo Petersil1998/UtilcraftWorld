@@ -6,6 +6,6 @@ import net.minecraft.world.gen.GenerationStage;
 public class GraveyardBiomeFeatures {
 
     public static void withGraves(BiomeGenerationSettings.Builder builder) {
-        builder.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION, UtilcraftWorldFeatures.GRAVES);
+        builder.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, UtilcraftWorldFeatures.GRAVES);
     }
 }

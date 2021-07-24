@@ -48,14 +48,14 @@ import java.lang.reflect.Field;
 public class UtilcraftWorld
 {
     public static final String MOD_ID = "utilcraft_world";
-    public static final RegistryKey<World> AFTERLIFE_WORLD = RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation(MOD_ID, "afterlife"));
-    public static final RegistryKey<Biome> MOD_BIOME = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, new ResourceLocation(MOD_ID, "graveyard"));
+    public static final RegistryKey<World> AFTERLIFE_WORLD = RegistryKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(MOD_ID, "afterlife"));
+    public static final RegistryKey<Biome> MOD_BIOME = RegistryKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(MOD_ID, "graveyard"));
 
     public static final ItemGroup ITEM_GROUP = new ItemGroup(MOD_ID) {
 
         @Nonnull
         @Override
-        public ItemStack createIcon() {
+        public ItemStack makeIcon() {
             return new ItemStack(Items.END_PORTAL_FRAME);
         }
     };
@@ -78,7 +78,7 @@ public class UtilcraftWorld
             try {
                 DimensionRenderInfo dimensionRenderInfo = new DimensionRenderInfo.Overworld();
                 dimensionRenderInfo.setCloudRenderHandler((ticks, partialTicks, matrixStack, world, mc, viewEntityX, viewEntityY, viewEntityZ) -> {});
-                ((Object2ObjectMap)effects.get(null)).put(AFTERLIFE_WORLD.getLocation(), dimensionRenderInfo);
+                ((Object2ObjectMap)effects.get(null)).put(AFTERLIFE_WORLD.location(), dimensionRenderInfo);
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
@@ -96,7 +96,7 @@ public class UtilcraftWorld
 
         @SubscribeEvent
         public static void registerItems(@Nonnull final RegistryEvent.Register<Item> itemRegistryEvent) {
-            itemRegistryEvent.getRegistry().register(new BlockItem(UtilcraftWorldBlocks.GRAVE, new Item.Properties().group(ITEM_GROUP)).setRegistryName("grave"));
+            itemRegistryEvent.getRegistry().register(new BlockItem(UtilcraftWorldBlocks.GRAVE, new Item.Properties().tab(ITEM_GROUP)).setRegistryName("grave"));
 
             itemRegistryEvent.getRegistry().register(new Switcher().setRegistryName("switcher"));
         }
@@ -111,17 +111,17 @@ public class UtilcraftWorld
 
         @SubscribeEvent
         public static void registerBiomes(@Nonnull final RegistryEvent.Register<Biome> biomeRegister) {
-            UtilcraftWorldFeatures.GRAVES = Feature.RANDOM_PATCH.withConfiguration(
+            UtilcraftWorldFeatures.GRAVES = Feature.RANDOM_PATCH.configured(
                     new BlockClusterFeatureConfig.Builder(
                             new WeightedBlockStateProvider()
-                                    .addWeightedBlockstate(UtilcraftWorldBlocks.GRAVE.getDefaultState(), 1)
-                                    .addWeightedBlockstate(UtilcraftWorldBlocks.GRAVE.getDefaultState().with(Grave.FACING, Direction.SOUTH), 1)
-                                    .addWeightedBlockstate(UtilcraftWorldBlocks.GRAVE.getDefaultState().with(Grave.FACING, Direction.EAST), 1)
-                                    .addWeightedBlockstate(UtilcraftWorldBlocks.GRAVE.getDefaultState().with(Grave.FACING, Direction.WEST), 1)
-                            , SimpleBlockPlacer.PLACER)
+                                    .add(UtilcraftWorldBlocks.GRAVE.defaultBlockState(), 1)
+                                    .add(UtilcraftWorldBlocks.GRAVE.defaultBlockState().setValue(Grave.FACING, Direction.SOUTH), 1)
+                                    .add(UtilcraftWorldBlocks.GRAVE.defaultBlockState().setValue(Grave.FACING, Direction.EAST), 1)
+                                    .add(UtilcraftWorldBlocks.GRAVE.defaultBlockState().setValue(Grave.FACING, Direction.WEST), 1)
+                            , SimpleBlockPlacer.INSTANCE)
                             .tries(10)
                             .build())
-                    .withPlacement(Features.Placements.HEIGHTMAP_SPREAD_DOUBLE_PLACEMENT);
+                    .decorated(Features.Placements.HEIGHTMAP_DOUBLE);
             UtilcraftWorldFeatures.register("grave_feature", UtilcraftWorldFeatures.GRAVES);
             biomeRegister.getRegistry().register(Graveyard.makeGraveyardBiome().setRegistryName(MOD_ID, "graveyard"));
         }

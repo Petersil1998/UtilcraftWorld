@@ -11,33 +11,33 @@ import net.minecraft.world.server.TicketType;
 public class PlayerUtils {
 
     public static void teleportToWorld(ServerPlayerEntity player, RegistryKey<World> world) {
-        teleportToWorld(player, world, player.getPosition(), false);
+        teleportToWorld(player, world, player.blockPosition(), false);
     }
 
     public static void teleportToWorld(ServerPlayerEntity player, RegistryKey<World> world, BlockPos position, boolean shouldCheckHeight) {
-        if(player.world.getServer() != null && player.world.getServer().getWorld(world) != null) {
+        if(player.level.getServer() != null && player.level.getServer().getLevel(world) != null) {
             ChunkPos chunkpos = new ChunkPos(position);
-            player.world.getServer().getWorld(world).getChunk(position);
-            player.getServerWorld().getChunkProvider().registerTicket(TicketType.POST_TELEPORT, chunkpos, 1, player.getEntityId());
+            player.level.getServer().getLevel(world).getChunk(position);
+            player.getLevel().getChunkSource().addRegionTicket(TicketType.POST_TELEPORT, chunkpos, 1, player.getId());
             player.stopRiding();
             if (player.isSleeping()) {
                 player.stopSleepInBed(true, true);
             }
             int height = position.getY();
             if (shouldCheckHeight) {
-                height = player.world.getServer().getWorld(world).getHeight(Heightmap.Type.WORLD_SURFACE, position).getY();
+                height = player.level.getServer().getLevel(world).getHeightmapPos(Heightmap.Type.WORLD_SURFACE, position).getY();
             }
-            player.teleport(player.world.getServer().getWorld(world), position.getX(), height, position.getZ(), 0, 0);
-            player.setRotationYawHead(0);
+            player.teleportTo(player.level.getServer().getLevel(world), position.getX(), height, position.getZ(), 0, 0);
+            player.setYHeadRot(0);
 
-            if (!player.isElytraFlying()) {
-                player.setMotion(player.getMotion().mul(1.0D, 0.0D, 1.0D));
+            if (!player.isFallFlying()) {
+                player.setDeltaMovement(player.getDeltaMovement().multiply(1.0D, 0.0D, 1.0D));
                 player.setOnGround(true);
             }
         }
     }
 
     public static boolean isPlayerInWorld(ServerPlayerEntity player, RegistryKey<World> world) {
-        return player.getServer().getWorld(world).equals(player.getServerWorld());
+        return player.getServer().getLevel(world).equals(player.getLevel());
     }
 }

@@ -19,47 +19,47 @@ public class Graveyard {
     public static final int FOLIAGE_COLOR = -16770141;
     public static final int GRASS_COLOR = -16770141;
     public static final int SKY_COLOR = -16770141;
-    public static final int WATER_COLOR = ColorHelper.PackedColor.packColor(255, 255,236,0);
-    public static final int WATER_FOG_COLOR = ColorHelper.PackedColor.packColor(255, 255,236,0);
+    public static final int WATER_COLOR = ColorHelper.PackedColor.color(255, 255,236,0);
+    public static final int WATER_FOG_COLOR = ColorHelper.PackedColor.color(255, 255,236,0);
     public static final BiomeAmbience.GrassColorModifier GRASS_COLOR_MODIFIER = BiomeAmbience.GrassColorModifier.NONE;
 
     public static Biome makeGraveyardBiome() {
         MobSpawnInfo.Builder modSpawner = new MobSpawnInfo.Builder();
-        DefaultBiomeFeatures.withSpawnsWithHorseAndDonkey(modSpawner);
+        DefaultBiomeFeatures.plainsSpawns(modSpawner);
         if(PLAYER_SPAWN_FRIENDLY) {
-            modSpawner.isValidSpawnBiomeForPlayer();
+            modSpawner.setPlayerCanSpawn();
         }
-        modSpawner.withCreatureSpawnProbability(CREATURE_SPAWN_PROBABILITY);
+        modSpawner.creatureGenerationProbability(CREATURE_SPAWN_PROBABILITY);
 
-        BiomeGenerationSettings.Builder generationSettings = (new BiomeGenerationSettings.Builder()).withSurfaceBuilder(ConfiguredSurfaceBuilders.field_244178_j);
+        BiomeGenerationSettings.Builder generationSettings = (new BiomeGenerationSettings.Builder()).surfaceBuilder(ConfiguredSurfaceBuilders.GRASS);
 
-        DefaultBiomeFeatures.withCavesAndCanyons(generationSettings);
+        DefaultBiomeFeatures.addDefaultCarvers(generationSettings);
 
-        DefaultBiomeFeatures.withCommonOverworldBlocks(generationSettings);
-        DefaultBiomeFeatures.withDisks(generationSettings);
+        DefaultBiomeFeatures.addDefaultUndergroundVariety(generationSettings);
+        DefaultBiomeFeatures.addDefaultSoftDisks(generationSettings);
 
-        DefaultBiomeFeatures.withFrozenTopLayer(generationSettings);
+        DefaultBiomeFeatures.addSurfaceFreezing(generationSettings);
         GraveyardBiomeFeatures.withGraves(generationSettings);
         return new Biome.Builder()
                 .precipitation(PRECIPITATION)
-                .category(CATEGORY)
+                .biomeCategory(CATEGORY)
                 .depth(DEPTH)
                 .scale(SCALE)
                 .temperature(TEMPERATURE)
-                .withTemperatureModifier(TEMPERATURE_MODIFIER)
+                .temperatureAdjustment(TEMPERATURE_MODIFIER)
                 .downfall(DOWNFALL)
-                .setEffects((new BiomeAmbience.Builder())
-                        .setWaterColor(WATER_COLOR)
-                        .setWaterFogColor(WATER_FOG_COLOR)
-                        .setFogColor(FOG_COLOR)
-                        .withSkyColor(SKY_COLOR)
-                        .withFoliageColor(FOLIAGE_COLOR)
-                        .withGrassColor(GRASS_COLOR)
-                        .withGrassColorModifier(GRASS_COLOR_MODIFIER)
-                        .setMoodSound(MoodSoundAmbience.DEFAULT_CAVE)
+                .specialEffects((new BiomeAmbience.Builder())
+                        .waterColor(WATER_COLOR)
+                        .waterFogColor(WATER_FOG_COLOR)
+                        .fogColor(FOG_COLOR)
+                        .skyColor(SKY_COLOR)
+                        .foliageColorOverride(FOLIAGE_COLOR)
+                        .grassColorOverride(GRASS_COLOR)
+                        .grassColorModifier(GRASS_COLOR_MODIFIER)
+                        .ambientMoodSound(MoodSoundAmbience.LEGACY_CAVE_SETTINGS)
                         .build())
-                .withMobSpawnSettings(modSpawner.copy())
-                .withGenerationSettings(generationSettings.build())
+                .mobSpawnSettings(modSpawner.build())
+                .generationSettings(generationSettings.build())
                 .build();
     }
 }
