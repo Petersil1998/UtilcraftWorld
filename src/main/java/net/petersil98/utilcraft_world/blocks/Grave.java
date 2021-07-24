@@ -77,8 +77,6 @@ public class Grave extends Block {
 
     public boolean canSurvive(@NotNull BlockState state, @NotNull IWorldReader world, BlockPos pos) {
         BlockPos blockpos = pos.below();
-        /*if (state.getBlock() == this) //Forge: This function is called during world gen and placement, before this block is set, so if we are not 'here' then assume it's the pre-check.
-            return world.getBlockState(blockpos).canSustainPlant(world, blockpos, Direction.UP, this);*/
         return this.isValidGround(world.getBlockState(blockpos));
     }
 }
