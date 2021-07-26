@@ -1,8 +1,6 @@
 package net.petersil98.utilcraft_world;
 
-import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import net.minecraft.block.Block;
-import net.minecraft.client.world.DimensionRenderInfo;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.*;
 import net.minecraft.potion.Effect;
@@ -22,7 +20,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -30,11 +27,11 @@ import net.petersil98.utilcraft_world.blocks.Grave;
 import net.petersil98.utilcraft_world.blocks.UtilcraftWorldBlocks;
 import net.petersil98.utilcraft_world.items.Switcher;
 import net.petersil98.utilcraft_world.network.PacketHandler;
+import net.petersil98.utilcraft_world.utils.ClientSetup;
 import net.petersil98.utilcraft_world.worldgen.biome.Graveyard;
 import net.petersil98.utilcraft_world.worldgen.biome.UtilcraftWorldFeatures;
 
 import javax.annotation.Nonnull;
-import java.lang.reflect.Field;
 
 @Mod(UtilcraftWorld.MOD_ID)
 public class UtilcraftWorld
@@ -66,18 +63,12 @@ public class UtilcraftWorld
         event.enqueueWork(() -> {
             PacketHandler.registerMessages();
             BiomeManager.addBiome(BiomeManager.BiomeType.COOL, new BiomeManager.BiomeEntry(MOD_BIOME, 10));
-            Field effects = ObfuscationReflectionHelper.findField(DimensionRenderInfo.class, "field_239208_a_");
-            try {
-                DimensionRenderInfo dimensionRenderInfo = new DimensionRenderInfo.Overworld();
-                dimensionRenderInfo.setCloudRenderHandler((ticks, partialTicks, matrixStack, world, mc, viewEntityX, viewEntityY, viewEntityZ) -> {});
-                ((Object2ObjectMap)effects.get(null)).put(AFTERLIFE_WORLD.location(), dimensionRenderInfo);
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
         });
     }
 
-    private void doClientStuff(@Nonnull final FMLClientSetupEvent event) {}
+    private void doClientStuff(@Nonnull final FMLClientSetupEvent event) {
+        event.enqueueWork(ClientSetup::disableCloudRenderingInAfterlife);
+    }
 
     @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
     public static class RegistryEvents {

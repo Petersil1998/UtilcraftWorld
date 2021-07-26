@@ -19,8 +19,8 @@ public class Graveyard {
     public static final int FOLIAGE_COLOR = -16770141;
     public static final int GRASS_COLOR = -16770141;
     public static final int SKY_COLOR = -16770141;
-    public static final int WATER_COLOR = ColorHelper.PackedColor.color(255, 255,236,0);
-    public static final int WATER_FOG_COLOR = ColorHelper.PackedColor.color(255, 255,236,0);
+    public static final int WATER_COLOR = -5120;
+    public static final int WATER_FOG_COLOR = -5120;
     public static final BiomeAmbience.GrassColorModifier GRASS_COLOR_MODIFIER = BiomeAmbience.GrassColorModifier.NONE;
 
     public static Biome makeGraveyardBiome() {
