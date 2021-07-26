@@ -1,0 +1,57 @@
+{
+	"textures": {
+		"grave": "utilcraft_world:block/grave",
+		"grave_engraving": "utilcraft_world:block/grave_engraving",
+		"particle": "utilcraft_world:block/grave"
+	},
+	"elements": [
+		{
+			"from": [7, 1, 0],
+			"to": [9, 10, 1],
+			"faces": {
+				"north": {"uv": [0, 0, 2, 16], "texture": "#grave"},
+				"east": {"uv": [0, 0, 2, 16], "texture": "#grave"},
+				"south": {"uv": [0, 0, 2, 16], "texture": "#grave"},
+				"west": {"uv": [0, 0, 2, 16], "texture": "#grave"},
+				"up": {"uv": [0, 0, 2, 16], "texture": "#grave"},
+				"down": {"uv": [0, 0, 2, 16], "texture": "#grave"}
+			}
+		},
+		{
+			"from": [7, 12, 0],
+			"to": [9, 16, 1],
+			"faces": {
+				"north": {"uv": [0, 0, 2, 16], "texture": "#grave"},
+				"east": {"uv": [0, 0, 2, 16], "texture": "#grave"},
+				"south": {"uv": [0, 0, 2, 16], "texture": "#grave"},
+				"west": {"uv": [0, 0, 2, 16], "texture": "#grave"},
+				"up": {"uv": [0, 0, 2, 16], "texture": "#grave"},
+				"down": {"uv": [0, 0, 2, 16], "texture": "#grave"}
+			}
+		},
+		{
+			"from": [2, 10, 0],
+			"to": [14, 12, 1],
+			"faces": {
+				"north": {"uv": [0, 0, 12, 2], "texture": "#grave"},
+				"east": {"uv": [0, 0, 12, 2], "texture": "#grave"},
+				"south": {"uv": [0, 6.125, 16, 8.75], "texture": "#grave_engraving"},
+				"west": {"uv": [0, 0, 12, 2], "texture": "#grave"},
+				"up": {"uv": [0, 0, 12, 2], "texture": "#grave"},
+				"down": {"uv": [0, 0, 12, 2], "texture": "#grave"}
+			}
+		},
+		{
+			"from": [6, 0, 0],
+			"to": [10, 1, 1],
+			"faces": {
+				"north": {"uv": [0, 0, 4, 1], "texture": "#grave"},
+				"east": {"uv": [0, 0, 4, 1], "texture": "#grave"},
+				"south": {"uv": [0, 0, 4, 1], "texture": "#grave"},
+				"west": {"uv": [0, 0, 4, 1], "texture": "#grave"},
+				"up": {"uv": [0, 0, 4, 1], "texture": "#grave"},
+				"down": {"uv": [0, 0, 4, 1], "texture": "#missing"}
+			}
+		}
+	]
+}
