@@ -1,6 +1,5 @@
 package net.petersil98.utilcraft_world.worldgen.biome;
 
-import net.minecraft.util.ColorHelper;
 import net.minecraft.world.biome.*;
 import net.minecraft.world.gen.surfacebuilders.ConfiguredSurfaceBuilders;
 
@@ -31,7 +30,7 @@ public class Graveyard {
         }
         modSpawner.creatureGenerationProbability(CREATURE_SPAWN_PROBABILITY);
 
-        BiomeGenerationSettings.Builder generationSettings = (new BiomeGenerationSettings.Builder()).surfaceBuilder(ConfiguredSurfaceBuilders.GRASS);
+        BiomeGenerationSettings.Builder generationSettings = new BiomeGenerationSettings.Builder().surfaceBuilder(ConfiguredSurfaceBuilders.GRASS);
 
         DefaultBiomeFeatures.addDefaultCarvers(generationSettings);
 
