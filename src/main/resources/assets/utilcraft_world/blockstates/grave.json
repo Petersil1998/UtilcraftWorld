@@ -1,7 +1,57 @@
 {
   "variants": {
-    "": {
-      "model": "utilcraft_world:block/grave"
-    }
+    "facing=north": [
+      {
+        "model": "utilcraft_world:block/grave"
+      },
+      {
+        "model": "utilcraft_world:block/grave2"
+      },
+      {
+        "model": "utilcraft_world:block/grave3"
+      }
+    ],
+    "facing=south": [
+      {
+        "model": "utilcraft_world:block/grave",
+        "y": 180
+      },
+      {
+        "model": "utilcraft_world:block/grave2",
+        "y": 180
+      },
+      {
+        "model": "utilcraft_world:block/grave3",
+        "y": 180
+      }
+    ],
+    "facing=west": [
+      {
+        "model": "utilcraft_world:block/grave",
+        "y": 270
+      },
+      {
+        "model": "utilcraft_world:block/grave2",
+        "y": 270
+      },
+      {
+        "model": "utilcraft_world:block/grave3",
+        "y": 270
+      }
+    ],
+    "facing=east": [
+      {
+        "model": "utilcraft_world:block/grave",
+        "y": 90
+      },
+      {
+        "model": "utilcraft_world:block/grave2",
+        "y": 90
+      },
+      {
+        "model": "utilcraft_world:block/grave3",
+        "y": 90
+      }
+    ]
   }
 }

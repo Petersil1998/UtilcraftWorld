@@ -37,7 +37,7 @@ public class Graveyard {
         }
         modSpawner.creatureGenerationProbability(CREATURE_SPAWN_PROBABILITY);
 
-        BiomeGenerationSettings.Builder generationSettings = (new BiomeGenerationSettings.Builder()).surfaceBuilder(SurfaceBuilders.GRASS);
+        BiomeGenerationSettings.Builder generationSettings = new BiomeGenerationSettings.Builder().surfaceBuilder(SurfaceBuilders.GRASS);
 
         BiomeDefaultFeatures.addDefaultCarvers(generationSettings);
 
