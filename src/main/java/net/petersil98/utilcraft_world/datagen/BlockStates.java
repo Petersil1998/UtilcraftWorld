@@ -21,10 +21,10 @@ public class BlockStates extends BlockStateProvider {
     }
 
     private void registerGrave() {
-        getVariantBuilder(UtilcraftWorldBlocks.GRAVE).forAllStates(blockState -> {
-            ModelFile defaultModel = models().getExistingFile(new ResourceLocation(BlockItemUtils.namespace(UtilcraftWorldBlocks.GRAVE), ModelProvider.BLOCK_FOLDER +"/"+BlockItemUtils.name(UtilcraftWorldBlocks.GRAVE)));
-            ModelFile graveModel1 = models().getExistingFile(new ResourceLocation(BlockItemUtils.namespace(UtilcraftWorldBlocks.GRAVE), ModelProvider.BLOCK_FOLDER +"/"+BlockItemUtils.name(UtilcraftWorldBlocks.GRAVE)+"2"));
-            ModelFile graveModel2 = models().getExistingFile(new ResourceLocation(BlockItemUtils.namespace(UtilcraftWorldBlocks.GRAVE), ModelProvider.BLOCK_FOLDER +"/"+BlockItemUtils.name(UtilcraftWorldBlocks.GRAVE)+"3"));
+        getVariantBuilder(UtilcraftWorldBlocks.GRAVE.get()).forAllStates(blockState -> {
+            ModelFile defaultModel = models().getExistingFile(new ResourceLocation(BlockItemUtils.namespace(UtilcraftWorldBlocks.GRAVE.get()), ModelProvider.BLOCK_FOLDER +"/"+BlockItemUtils.name(UtilcraftWorldBlocks.GRAVE.get())));
+            ModelFile graveModel1 = models().getExistingFile(new ResourceLocation(BlockItemUtils.namespace(UtilcraftWorldBlocks.GRAVE.get()), ModelProvider.BLOCK_FOLDER +"/"+BlockItemUtils.name(UtilcraftWorldBlocks.GRAVE.get())+"2"));
+            ModelFile graveModel2 = models().getExistingFile(new ResourceLocation(BlockItemUtils.namespace(UtilcraftWorldBlocks.GRAVE.get()), ModelProvider.BLOCK_FOLDER +"/"+BlockItemUtils.name(UtilcraftWorldBlocks.GRAVE.get())+"3"));
             int rotation;
             switch (blockState.getValue(Grave.FACING)) {
                 case EAST -> rotation = 90;

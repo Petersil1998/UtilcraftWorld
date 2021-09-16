@@ -18,7 +18,7 @@ public class ItemModels extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
-        registerBlockItem(UtilcraftWorldBlocks.GRAVE);
+        registerBlockItem(UtilcraftWorldBlocks.GRAVE.get());
     }
 
     private void registerHandheld(Item item) {

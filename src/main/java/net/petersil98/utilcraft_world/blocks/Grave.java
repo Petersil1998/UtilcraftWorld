@@ -1,26 +1,22 @@
 package net.petersil98.utilcraft_world.blocks;
 
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
-import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.core.Direction;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
-import org.jetbrains.annotations.NotNull;
-
-import javax.annotation.Nonnull;
-
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
 
 public class Grave extends Block {
 
@@ -30,12 +26,8 @@ public class Grave extends Block {
     protected static final VoxelShape WEST_SHAPE = Block.box(0.0D, 0.0D, 2.0D, 1.0D, 16.0D, 14.0D);
     protected static final VoxelShape SOUTH_SHAPE = Block.box(2.0D, 0.0D, 15.0D, 14.0D, 16.0D, 16.0D);
 
-    public Grave() {
-        super(BlockBehaviour.Properties
-                .of(Material.STONE, MaterialColor.STONE)
-                .noOcclusion()
-                .noDrops()
-        );
+    public Grave(Properties properties) {
+        super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
 
