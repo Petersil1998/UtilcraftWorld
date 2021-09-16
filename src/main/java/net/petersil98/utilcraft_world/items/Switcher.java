@@ -14,8 +14,8 @@ import static net.petersil98.utilcraft_world.utils.PlayerUtils.*;
 
 public class Switcher extends Item {
 
-    public Switcher() {
-        super(new Item.Properties().tab(UtilcraftWorld.ITEM_GROUP));
+    public Switcher(Properties properties) {
+        super(properties);
     }
 
     @Override

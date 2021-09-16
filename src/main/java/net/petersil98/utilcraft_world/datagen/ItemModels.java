@@ -6,10 +6,9 @@ import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.petersil98.utilcraft_world.UtilcraftWorld;
 import net.petersil98.utilcraft_world.blocks.UtilcraftWorldBlocks;
 import net.petersil98.utilcraft_world.utils.BlockItemUtils;
-import net.petersil98.utilcraft_world.UtilcraftWorld;
-import net.petersil98.utilcraft_world.items.UtilcraftWorldItems;
 
 public class ItemModels extends ItemModelProvider {
 
@@ -19,7 +18,7 @@ public class ItemModels extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
-        registerBlockItem(UtilcraftWorldBlocks.GRAVE);
+        registerBlockItem(UtilcraftWorldBlocks.GRAVE.get());
     }
 
     private void registerHandheld(Item item) {

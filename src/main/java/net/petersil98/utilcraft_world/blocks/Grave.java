@@ -1,8 +1,9 @@
 package net.petersil98.utilcraft_world.blocks;
 
-import net.minecraft.block.*;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialColor;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.HorizontalBlock;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
@@ -25,12 +26,8 @@ public class Grave extends Block {
     protected static final VoxelShape WEST_SHAPE = Block.box(0.0D, 0.0D, 2.0D, 1.0D, 16.0D, 14.0D);
     protected static final VoxelShape SOUTH_SHAPE = Block.box(2.0D, 0.0D, 16.0D, 14.0D, 16.0D, 15.0D);
 
-    public Grave() {
-        super(AbstractBlock.Properties
-                .of(Material.STONE, MaterialColor.STONE)
-                .noOcclusion()
-                .noDrops()
-        );
+    public Grave(Properties properties) {
+        super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
 

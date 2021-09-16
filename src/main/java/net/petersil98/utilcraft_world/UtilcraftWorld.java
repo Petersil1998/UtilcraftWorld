@@ -1,9 +1,8 @@
 package net.petersil98.utilcraft_world;
 
-import net.minecraft.block.Block;
-import net.minecraft.entity.EntityType;
-import net.minecraft.item.*;
-import net.minecraft.potion.Effect;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.Direction;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
@@ -16,8 +15,8 @@ import net.minecraft.world.gen.feature.BlockClusterFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.Features;
 import net.minecraftforge.common.BiomeManager;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -25,7 +24,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.petersil98.utilcraft_world.blocks.Grave;
 import net.petersil98.utilcraft_world.blocks.UtilcraftWorldBlocks;
-import net.petersil98.utilcraft_world.items.Switcher;
+import net.petersil98.utilcraft_world.items.UtilcraftWorldItems;
 import net.petersil98.utilcraft_world.network.PacketHandler;
 import net.petersil98.utilcraft_world.utils.ClientSetup;
 import net.petersil98.utilcraft_world.worldgen.biome.Graveyard;
@@ -50,13 +49,11 @@ public class UtilcraftWorld
     };
 
     public UtilcraftWorld() {
-        // Register the setup method for modloading
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-        // Register the doClientStuff method for modloading
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
-
-        // Register ourselves for server and other game events we are interested in
-        MinecraftForge.EVENT_BUS.register(this);
+        IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        eventBus.addListener(this::setup);
+        eventBus.addListener(this::doClientStuff);
+        UtilcraftWorldBlocks.BLOCKS.register(eventBus);
+        UtilcraftWorldItems.ITEMS.register(eventBus);
     }
 
     private void setup(final FMLCommonSetupEvent event) {
@@ -72,45 +69,22 @@ public class UtilcraftWorld
 
     @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
     public static class RegistryEvents {
-        @SubscribeEvent
-        public static void registerBlocks(final RegistryEvent.Register<Block> blockRegistryEvent) {
-            blockRegistryEvent.getRegistry().register(new Grave().setRegistryName("grave"));
-        }
-
-        @SubscribeEvent
-        public static void registerItems(@Nonnull final RegistryEvent.Register<Item> itemRegistryEvent) {
-            itemRegistryEvent.getRegistry().register(new BlockItem(UtilcraftWorldBlocks.GRAVE, new Item.Properties().tab(ITEM_GROUP)).setRegistryName("grave"));
-
-            itemRegistryEvent.getRegistry().register(new Switcher().setRegistryName("switcher"));
-        }
-
-        @SubscribeEvent
-        public static void registerEffects(@Nonnull final RegistryEvent.Register<Effect> effectRegistryEvent) {
-        }
-
-        @SubscribeEvent
-        public static void registerEntities(@Nonnull final RegistryEvent.Register<EntityType<?>> entityRegister) {
-        }
 
         @SubscribeEvent
         public static void registerBiomes(@Nonnull final RegistryEvent.Register<Biome> biomeRegister) {
             UtilcraftWorldFeatures.GRAVES = Feature.RANDOM_PATCH.configured(
-                    new BlockClusterFeatureConfig.Builder(
-                            new WeightedBlockStateProvider()
-                                    .add(UtilcraftWorldBlocks.GRAVE.defaultBlockState(), 1)
-                                    .add(UtilcraftWorldBlocks.GRAVE.defaultBlockState().setValue(Grave.FACING, Direction.SOUTH), 1)
-                                    .add(UtilcraftWorldBlocks.GRAVE.defaultBlockState().setValue(Grave.FACING, Direction.EAST), 1)
-                                    .add(UtilcraftWorldBlocks.GRAVE.defaultBlockState().setValue(Grave.FACING, Direction.WEST), 1)
-                            , SimpleBlockPlacer.INSTANCE)
-                            .tries(10)
-                            .build())
+                            new BlockClusterFeatureConfig.Builder(
+                                    new WeightedBlockStateProvider()
+                                            .add(UtilcraftWorldBlocks.GRAVE.get().defaultBlockState(), 1)
+                                            .add(UtilcraftWorldBlocks.GRAVE.get().defaultBlockState().setValue(Grave.FACING, Direction.SOUTH), 1)
+                                            .add(UtilcraftWorldBlocks.GRAVE.get().defaultBlockState().setValue(Grave.FACING, Direction.EAST), 1)
+                                            .add(UtilcraftWorldBlocks.GRAVE.get().defaultBlockState().setValue(Grave.FACING, Direction.WEST), 1)
+                                    , SimpleBlockPlacer.INSTANCE)
+                                    .tries(10)
+                                    .build())
                     .decorated(Features.Placements.HEIGHTMAP_DOUBLE);
             UtilcraftWorldFeatures.register("grave_feature", UtilcraftWorldFeatures.GRAVES);
             biomeRegister.getRegistry().register(Graveyard.makeGraveyardBiome().setRegistryName(MOD_ID, "graveyard"));
-        }
-
-        @SubscribeEvent
-        public static void registerFeatures(@Nonnull final RegistryEvent.Register<Feature<?>> featureRegister) {
         }
     }
 }
