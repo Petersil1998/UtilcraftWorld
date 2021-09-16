@@ -16,7 +16,7 @@ public class ClientSetup {
             dimensionRenderInfo.setCloudRenderHandler((ticks, partialTicks, matrixStack, world, mc, viewEntityX, viewEntityY, viewEntityZ) -> {});
             ((Object2ObjectMap)effects.get(null)).put(UtilcraftWorld.AFTERLIFE_WORLD.location(), dimensionRenderInfo);
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            UtilcraftWorld.LOGGER.error("Couldn't disable Cloud Rendering", e);
         }
     }
 }

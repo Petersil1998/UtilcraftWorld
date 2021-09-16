@@ -31,6 +31,8 @@ import net.petersil98.utilcraft_world.network.PacketHandler;
 import net.petersil98.utilcraft_world.utils.ClientSetup;
 import net.petersil98.utilcraft_world.worldgen.biome.Graveyard;
 import net.petersil98.utilcraft_world.worldgen.biome.UtilcraftWorldFeatures;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nonnull;
 
@@ -50,6 +52,7 @@ public class UtilcraftWorld
         }
     };
 
+    public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 
     public UtilcraftWorld() {
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
