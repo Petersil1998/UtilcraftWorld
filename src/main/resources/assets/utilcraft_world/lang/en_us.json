@@ -1,1 +1,5 @@
-{}
+{
+  "block.utilcraft_world.grave": "Grave",
+  "item.utilcraft_world.switcher": "Switcher",
+  "itemGroup.utilcraft_world": "Utilcraft World"
+}

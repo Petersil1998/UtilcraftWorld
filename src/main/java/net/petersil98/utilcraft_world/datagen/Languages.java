@@ -3,6 +3,8 @@ package net.petersil98.utilcraft_world.datagen;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.LanguageProvider;
 import net.petersil98.utilcraft_world.UtilcraftWorld;
+import net.petersil98.utilcraft_world.blocks.UtilcraftWorldBlocks;
+import net.petersil98.utilcraft_world.items.UtilcraftWorldItems;
 
 import javax.annotation.Nonnull;
 
@@ -26,6 +28,9 @@ public class Languages {
 
         @Override
         protected void addTranslations() {
+            add("itemGroup.utilcraft_world", "Utilcraft World");
+            add(UtilcraftWorldBlocks.GRAVE.get(), "Grave");
+            add(UtilcraftWorldItems.SWITCHER.get(), "Switcher");
         }
     }
 
